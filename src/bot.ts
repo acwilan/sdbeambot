@@ -1,4 +1,4 @@
-import { Intents, Client } from 'discord.js';
+import { Intents, Client, Util } from 'discord.js';
 import axios from 'axios';
 import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
@@ -39,11 +39,11 @@ client.on('messageCreate', async (message) => {
     }
     const botMention = `<@${client.user?.id}>`; // Mention of the bot
     const messageText = message.content;
-    if (!messageText.startsWith(botMention)) {
+    if (!message.mentions.has(client.user?.id || '')) {
         console.log(`Discarding message "${messageText}" not addressed to bot`);
         return; // Ignore messages not addressed to the bot
     }
-    const prompt = messageText.substring(messageText.indexOf(botMention) + 1);
+    const prompt = Util.cleanContent(messageText, message.channel);
     const channelId = message.channel.id;
     const channelUrl = channelUrlMap[channelId];
     if (!channelUrl) {
