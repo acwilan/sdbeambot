@@ -26,8 +26,9 @@ client.on('ready', () => {
     // Post a message in all listening channels when the bot starts up
     client.guilds.cache.forEach(guild => {
         guild.channels.cache.forEach(channel => {
-            if (channel.type === 'GUILD_TEXT' && channel.permissionsFor(client.user?.id || '')?.has('SEND_MESSAGES')) {
+            if (channelUrlMap[channel.id] && channel.type === 'GUILD_TEXT' && channel.permissionsFor(client.user?.id || '')?.has('SEND_MESSAGES')) {
                 channel.send('I am now online!');
+                client.user?.setStatus('online');
             }
         });
     });
@@ -37,8 +38,9 @@ client.on('disconnect', () => {
     // Post a message in all listening channels when the bot goes offline
     client.guilds.cache.forEach(guild => {
         guild.channels.cache.forEach(channel => {
-            if (channel.type === 'GUILD_TEXT' && channel.permissionsFor(client.user?.id || '')?.has('SEND_MESSAGES')) {
+            if (channelUrlMap[channel.id] && channel.type === 'GUILD_TEXT' && channel.permissionsFor(client.user?.id || '')?.has('SEND_MESSAGES')) {
                 channel.send('I am now offline!');
+                client.user?.setStatus('idle');
             }
         });
     });
