@@ -23,10 +23,22 @@ const client = new Client({
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user?.tag}!`);
+    // Post a message in all listening channels when the bot starts up
     client.guilds.cache.forEach(guild => {
         guild.channels.cache.forEach(channel => {
-            if (channel.type === 'GUILD_TEXT' && channel.permissionsFor(client.user?.username || '')?.has('SEND_MESSAGES')) {
+            if (channel.type === 'GUILD_TEXT' && channel.permissionsFor(client.user?.id || '')?.has('SEND_MESSAGES')) {
                 channel.send('I am now online!');
+            }
+        });
+    });
+});
+
+client.on('disconnect', () => {
+    // Post a message in all listening channels when the bot goes offline
+    client.guilds.cache.forEach(guild => {
+        guild.channels.cache.forEach(channel => {
+            if (channel.type === 'GUILD_TEXT' && channel.permissionsFor(client.user?.id || '')?.has('SEND_MESSAGES')) {
+                channel.send('I am now offline!');
             }
         });
     });
@@ -37,7 +49,6 @@ client.on('messageCreate', async (message) => {
         console.log(`Discarding message from bot`);
         return; // Ignore messages from bots
     }
-    const botMention = `<@${client.user?.id}>`; // Mention of the bot
     const messageText = message.content;
     if (!message.mentions.has(client.user?.id || '')) {
         console.log(`Discarding message "${messageText}" not addressed to bot`);
