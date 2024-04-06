@@ -1,0 +1,25 @@
+{
+  "name": "sdbeambot",
+  "version": "1.0.0",
+  "description": "A Discord bot written in TypeScript",
+  "main": "src/bot.ts",
+  "repository": "git@github.com:acwilan/sdbeambot.git",
+  "author": "Andres <andres.rovira@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/bot.js"
+  },
+  "dependencies": {
+    "@types/node": "^20.12.5",
+    "axios": "^1.6.8",
+    "discord.js": "^13",
+    "dotenv": "^16.4.5",
+    "fs": "^0.0.1-security",
+    "typescript": "^5.4.4",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.8"
+  }
+}
